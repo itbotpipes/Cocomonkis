@@ -115,5 +115,7 @@ document.querySelector('#enquiry-form')?.addEventListener('submit', event => {
     `Interested in: ${data.get('interest')}`,
     data.get('message') ? `Message: ${data.get('message')}` : ''
   ].filter(Boolean);
-  window.open(`https://wa.me/919974333061?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
+  const isExport = data.get('interest') === 'Export Enquiries';
+  const targetNumber = isExport ? '917698533000' : '917359433000';
+  window.open(`https://wa.me/${targetNumber}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
 });

@@ -683,14 +683,15 @@ h1 em, h2 em, .quote-band em {
 }
 
 .coco-card {
-  background: linear-gradient(140deg, #24160e, #472b1c);
-  color: white;
-}
-
-.monkis-card {
   background: linear-gradient(140deg, #f1e7da, #dfcdb7);
   color: var(--brown-primary);
   border: 1px solid var(--brown-tan);
+}
+
+.monkis-card {
+  background: linear-gradient(140deg, #24160e, #472b1c);
+  color: white;
+  border: none;
 }
 
 .brand-card-kicker {
@@ -698,30 +699,20 @@ h1 em, h2 em, .quote-band em {
   letter-spacing: 0.14em;
   font-weight: 700;
   opacity: 0.85;
-  margin-bottom: 24px;
-}
-
-.brand-card-logo-wrap {
-  height: 74px;
-  background: #ffffff;
-  padding: 10px 24px;
-  border-radius: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.09);
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
 .brand-card-logo {
-  height: 54px;
-  max-width: 175px;
+  height: 60px;
+  max-width: 190px;
   object-fit: contain;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .brand-card-logo.monkis-img {
-  height: 58px;
-  max-width: 175px;
+  height: 64px;
+  max-width: 190px;
 }
 
 .brand-card h3 {
