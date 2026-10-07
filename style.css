@@ -1161,12 +1161,12 @@ h1 em, h2 em, .quote-band em {
 }
 
 .footer-about img {
-  width: 160px;
-  height: 76px;
+  width: 175px;
+  height: auto;
+  max-height: 75px;
   object-fit: contain;
-  background: white;
-  border-radius: 8px;
   margin-bottom: 16px;
+  display: block;
 }
 
 .footer-about p {
