@@ -361,9 +361,9 @@ h1 em, h2 em, .quote-band em {
 }
 
 .stats-bar-section {
-  background: #f6f0e6;
+  background: #f7f4ee;
   border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
   padding: 34px 0;
 }
 
