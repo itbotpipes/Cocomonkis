@@ -1,5 +1,9 @@
 :root {
   --cream: #faf7f2;
+  --cream-dark: #f0ead8;
+  --charcoal: #1c1c1c;
+  --green: #1a8c32;
+  --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --paper: #fffdf9;
   --brown-primary: #2c1b12;
   --brown-deep: #1b1009;
@@ -1782,3 +1786,275 @@ h1 em, h2 em, .quote-band em {
     padding: 20px 0;
   }
 }
+
+/* ─── VIDEO GALLERY ──────────────────────────────────────────────────── */
+#gallery.gallery-section,
+#gallery {
+  display: block !important;
+  width: 100% !important;
+  min-height: auto !important;
+  padding: 85px 0 95px !important;
+  background: var(--cream) !important;
+  overflow: hidden;
+}
+
+#gallery .container,
+#gallery .gallery-heading-container {
+  width: 100% !important;
+  max-width: 1170px !important;
+  margin: 0 auto 36px auto !important;
+  text-align: center !important;
+  display: block !important;
+}
+
+.gallery-header {
+  text-align: center !important;
+  padding: 0 20px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.gallery-header .section-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brown-accent);
+  margin-bottom: 12px;
+}
+
+.gallery-header .section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.gallery-header .section-title span {
+  color: var(--brown-accent);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.gallery-subtitle {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 580px;
+  margin: 14px auto 0;
+  line-height: 1.6;
+}
+
+.gallery-track-wrap {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.gallery-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 8px 8% 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gallery-track::-webkit-scrollbar { display: none; }
+
+/* Desktop: 4 items side-by-side */
+.gallery-item {
+  flex: 0 0 calc(25% - 15px);
+  min-width: 220px;
+  min-height: 390px;
+  aspect-ratio: 9 / 16;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--charcoal);
+  scroll-snap-align: start;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.14);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.22);
+}
+
+.gallery-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover video {
+  transform: scale(1.03);
+}
+
+/* Sound Button on each card */
+.gallery-sound-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.2s ease;
+}
+
+.gallery-sound-btn:hover {
+  background: var(--brown-accent);
+  border-color: var(--brown-accent);
+  transform: scale(1.1);
+}
+
+.gallery-sound-btn.is-active {
+  background: var(--brown-accent);
+  border-color: var(--brown-accent);
+}
+
+/* Play/Pause icon overlay */
+.gallery-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.18);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.gallery-item:hover .gallery-play {
+  opacity: 0.8;
+}
+
+/* Navigation Arrows */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--cream-dark);
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: all 0.25s ease;
+  z-index: 2;
+}
+
+.gallery-arrow:hover {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+  box-shadow: 0 6px 20px rgba(26,140,50,0.3);
+}
+
+.gallery-prev { left: calc(8% - 22px); }
+.gallery-next { right: calc(8% - 22px); }
+
+/* Hide arrows on desktop when all 4 fit */
+@media (min-width: 1024px) {
+  .gallery-arrow { display: none; }
+}
+
+/* Tablet — 2 visible */
+@media (max-width: 1023px) {
+  .gallery-item {
+    flex: 0 0 calc(50% - 10px);
+  }
+  #gallery.gallery-section,
+  #gallery { padding: 60px 0 60px !important; }
+}
+
+/* Mobile — 1.2 visible (carousel peek) */
+@media (max-width: 600px) {
+  .gallery-item {
+    flex: 0 0 75vw;
+    min-width: 0;
+  }
+  .gallery-prev { left: 10px; }
+  .gallery-next { right: 10px; }
+}
+
+/* Fullscreen Modal */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.video-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-modal video {
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 450px);
+  max-height: 85vh;
+  aspect-ratio: 9 / 16;
+  border-radius: 18px;
+  background: #000;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  outline: none;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 100000;
+}
+
+.video-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.08);
+}
+

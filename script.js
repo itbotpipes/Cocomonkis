@@ -116,6 +116,137 @@ document.querySelector('#enquiry-form')?.addEventListener('submit', event => {
     data.get('message') ? `Message: ${data.get('message')}` : ''
   ].filter(Boolean);
   const isExport = data.get('interest') === 'Export Enquiries';
-  const targetNumber = isExport ? '917698533000' : '917359433000';
+  const targetNumber = isExport ? '919527162048' : '917623833000';
   window.open(`https://wa.me/${targetNumber}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
 });
+
+/* ─── VIDEO GALLERY SLIDER, SOUND TOGGLE & MODAL ─── */
+(function () {
+  const track = document.getElementById('galleryTrack');
+  const prev  = document.getElementById('galleryPrev');
+  const next  = document.getElementById('galleryNext');
+  const videoModal = document.getElementById('videoModal');
+  const modalVideo = document.getElementById('modalVideo');
+  const videoModalClose = document.getElementById('videoModalClose');
+  if (!track) return;
+
+  const items = track.querySelectorAll('.gallery-item');
+
+  // Helper to toggle sound button icon state
+  function updateSoundIcon(btn, isMuted) {
+    const mutedIcon = btn.querySelector('.sound-icon-muted');
+    const unmutedIcon = btn.querySelector('.sound-icon-unmuted');
+    if (mutedIcon && unmutedIcon) {
+      mutedIcon.style.display = isMuted ? 'block' : 'none';
+      unmutedIcon.style.display = isMuted ? 'none' : 'block';
+    }
+    btn.classList.toggle('is-active', !isMuted);
+    btn.setAttribute('aria-label', isMuted ? 'Unmute video' : 'Mute video');
+  }
+
+  // Set up each card
+  items.forEach(item => {
+    const video = item.querySelector('video');
+    const soundBtn = item.querySelector('.gallery-sound-btn');
+    if (!video) return;
+
+    // Ensure video is paused initially
+    video.pause();
+
+    // 1. Play ONLY on hover, pause on leave
+    item.addEventListener('mouseenter', () => {
+      video.play().catch(() => {});
+      item.classList.add('playing');
+    });
+
+    item.addEventListener('mouseleave', () => {
+      video.pause();
+      item.classList.remove('playing');
+    });
+
+    // 2. Sound toggle on card
+    if (soundBtn) {
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Do not trigger modal open
+        const willMute = !video.muted;
+        video.muted = willMute;
+        if (!willMute) {
+          video.play().catch(() => {});
+          item.classList.add('playing');
+          // Mute all other card videos so audio doesn't overlap
+          items.forEach(otherItem => {
+            const otherVid = otherItem.querySelector('video');
+            const otherBtn = otherItem.querySelector('.gallery-sound-btn');
+            if (otherVid && otherVid !== video) {
+              otherVid.muted = true;
+              if (otherBtn) updateSoundIcon(otherBtn, true);
+            }
+          });
+        }
+        updateSoundIcon(soundBtn, willMute);
+      });
+    }
+
+    // 3. Click card to open in modal
+    item.addEventListener('click', (e) => {
+      // If clicked sound button, ignore
+      if (e.target.closest('.gallery-sound-btn')) return;
+      if (!videoModal || !modalVideo) return;
+
+      // Pause current card video while watching in popup
+      video.pause();
+      item.classList.remove('playing');
+
+      const src = video.currentSrc || video.src;
+      modalVideo.src = src;
+      modalVideo.currentTime = video.currentTime || 0;
+      modalVideo.muted = false; // Popup plays with audio!
+      videoModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      const playPromise = modalVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          modalVideo.muted = true;
+          modalVideo.play().catch(() => {});
+        });
+      }
+    });
+  });
+
+  // Modal Close Functionality
+  function closeModal() {
+    if (!videoModal || !modalVideo) return;
+    modalVideo.pause();
+    modalVideo.removeAttribute('src'); // Stop buffering
+    modalVideo.load();
+    videoModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  videoModalClose?.addEventListener('click', closeModal);
+
+  videoModal?.addEventListener('click', (e) => {
+    if (e.target === videoModal) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && videoModal?.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
+  // Smooth scroll arrows for small screens
+  function cardW() {
+    return items[0] ? (items[0].offsetWidth + 20) : 300;
+  }
+  prev?.addEventListener('click', () => { 
+    track.scrollBy({ left: -cardW(), behavior: 'smooth' }); 
+  });
+  next?.addEventListener('click', () => { 
+    track.scrollBy({ left:  cardW(), behavior: 'smooth' }); 
+  });
+})();
+
