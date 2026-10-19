@@ -2006,7 +2006,9 @@ h1 em, h2 em, .quote-band em {
 .video-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.94);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2030,7 +2032,7 @@ h1 em, h2 em, .quote-band em {
   aspect-ratio: 9 / 16;
   border-radius: 18px;
   background: #000;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 25px 60px rgba(44, 27, 18, 0.25), 0 10px 25px rgba(0, 0, 0, 0.12);
   outline: none;
 }
 
@@ -2041,20 +2043,22 @@ h1 em, h2 em, .quote-band em {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: rgba(44, 27, 18, 0.88);
+  border: 1px solid rgba(44, 27, 18, 0.15);
+  color: #fff;
   font-size: 1.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   z-index: 100000;
+  box-shadow: 0 4px 14px rgba(44, 27, 18, 0.25);
 }
 
 .video-modal-close:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--brown-deep, #1b1009);
   transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(44, 27, 18, 0.35);
 }
 
